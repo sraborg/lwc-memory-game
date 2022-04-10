@@ -33,4 +33,9 @@ export default class MemoryGameLwc extends LightningElement {
             this.isLibLoaded = true
         }
     }
+
+    displayCard(event){
+        let currCard = event.target
+        currCard.classList.add("open", "show", "disabled")
+    }
 }
