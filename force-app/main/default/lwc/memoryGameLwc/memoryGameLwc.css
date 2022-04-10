@@ -42,7 +42,7 @@
     align-items: center;
     box-shadow: 5px 2px 20px 0 rgb(46 61 73 / 50%);
 }
-.card.open{
+.grid-container .card.open{
     transform: rotate(0);
     background: #02b3e4;
     cursor: default;
@@ -51,12 +51,12 @@
     backface-visibility: visible !important;
     animation-duration: .75s;
 }
-.card.show{
+.grid-container .card.show{
     font-size: 33px;
     visibility: visible !important;
     opacity: 100 !important;
 }
-.card.disabled{
+.grid-container .card.disabled{
     pointer-events: none;
     opacity: 0.9;
 }
