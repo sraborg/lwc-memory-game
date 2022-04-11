@@ -6,7 +6,9 @@ export default class MemoryGameLwc extends LightningElement {
     isLibLoaded = false
     openedCards = []
     matchedCard = []
+    totalTime = '00:00' 
     moves=0
+    timerRef
     cards = [
         {id:1, listClass:"card", type:'diamond', icon:'fa fa-diamond'},
         {id:2, listClass:"card", type:'plane', icon:'fa fa-paper-plane-o'},
@@ -43,6 +45,10 @@ export default class MemoryGameLwc extends LightningElement {
         const len = this.openedCards.length
         if(len === 2) {
             this.moves = this.moves + 1
+            if(this.moves === 1) {
+                this.timer();
+            }
+
             if(this.openedCards[0].type === this.openedCards[1].type) {
                 this.matchedCard = this.matchedCard.concat(this.openedCards[0], this.openedCards[1])
                 this.matched()
@@ -58,6 +64,9 @@ export default class MemoryGameLwc extends LightningElement {
         this.openedCards[0].classList.remove("show", "open")
         this.openedCards[1].classList.remove("show", "open")
         this.openedCards=[]
+        if(this.matchedCard.length === this.cards.length) {
+            window.clearInterval(this.timerRef) // stop timer
+        }
     }
 
     unmatched() {
@@ -86,4 +95,44 @@ export default class MemoryGameLwc extends LightningElement {
             }
         })
     }
+
+    timer() {
+        let startTime = new Date()
+        this.timerRef = setInterval(() => {
+            let diff = new Date().getTime() - startTime.getTime()
+            let d = Math.floor(diff/1000)
+            let m = Math.floor(d % 3600 / 60)
+            let s = Math.floor(d % 3600 % 60)
+            const mDisplay = m>0 ? m+(m===1? " minute, ":" minutes, "):""
+            const sDisplay = s>0 ? s+(s===1? " second":" seconds"): ""
+            this.totalTime = mDisplay + sDisplay
+        }, 1000)
+    }
+
+    shuffle() {
+        this.openedCards = []
+        this.matchedCard = []
+        this.totalTime = '00:00' 
+        this.moves=0
+        window.clearInterval(this.timerRef)
+        let elem = this.template.querySelectorAll('.card')
+        Array.from(elem).forEach(item =>{
+            item.classList.remove("show", "open", "match", "disabled")
+        })
+
+        /*** shuffling array and swapping logic */
+        let array = [...this.cards]
+        let counter = array.length
+        while(counter>0) {
+            let index = math.floor(Math.random()*counter)
+            counter--
+
+            let temp = array[counter]
+            array[counter] = array[index]
+            array[index] = temp
+        }
+
+        this.cards = [...array]
+    }
 }
+

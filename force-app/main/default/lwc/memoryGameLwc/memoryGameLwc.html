@@ -4,8 +4,8 @@
             <div class="slds-var-p-around_medium">
                 <section class="score-panel">
                     <span class="moves">{moves}</span> Move(s)
-                    <div class="timer">10 seconds</div>
-                    <div class="restart">
+                    <div class="timer">{totalTime}</div>
+                    <div class="restart" onclick={shuffle}>
                         <i class="fa fa-repeat" aria-hidden="true"></i>
                     </div>
                 </section>
